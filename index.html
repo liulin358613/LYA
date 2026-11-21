@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="description" content="LUMINA 光域科技 - 专业舞台灯光研发制造商，提供光束灯、LED帕灯、图案灯、洗墙灯及 OEM/ODM 定制服务。">
+<title>LUMINA 光域科技 · 专业舞台灯光解决方案</title>
+<style>
+/* ============ 基础变量 ============ */
+:root{
+  --bg:#08080e;
+  --bg2:#0d0d16;
+  --bg3:#12121e;
+  --card:#141420;
+  --card2:#191927;
+  --line:rgba(255,255,255,.09);
+  --line2:rgba(255,255,255,.16);
+  --text:#f4f5fb;
+  --muted:#9a9bb2;
+  --muted2:#6e6f86;
+  --blue:#3b6ef6;
+  --blue-deep:#0051D9;
+  --cyan:#00d4ff;
+  --orange:#F37021;
+  --grad:linear-gradient(120deg,#0051D9 0%,#3b6ef6 45%,#00d4ff 100%);
+  --grad-warm:linear-gradient(120deg,#F37021,#ffb347);
+  --maxw:1200px;
+  --nav-h:72px;
+  --r:16px;
+  --shadow:0 20px 60px rgba(0,0,0,.5);
+  --ease:cubic-bezier(.22,.61,.36,1);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:var(--nav-h)}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;
+  background:var(--bg);color:var(--text);line-height:1.7;
+  -webkit-font-smoothing:antialiased;overflow-x:hidden;
+}
+a{color:inherit;text-decoration:none}
+img,svg{display:block;max-width:100%}
+button,input,textarea,select{font-family:inherit}
+.wrap{width:min(100% - 40px,var(--maxw));margin-inline:auto}
+.section{padding:clamp(64px,9vw,120px) 0;position:relative}
+.section-head{max-width:720px;margin:0 auto clamp(40px,6vw,68px);text-align:center}
+.eyebrow{
+  display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:600;
+  letter-spacing:.14em;text-transform:uppercase;color:var(--cyan);margin-bottom:16px;
+}
+.eyebrow::before,.eyebrow::after{content:"";width:22px;height:1px;background:var(--cyan);opacity:.6}
+.title{font-size:clamp(28px,4.4vw,46px);line-height:1.2;font-weight:800;letter-spacing:-.02em}
+.title .hl{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.desc{color:var(--muted);font-size:clamp(14px,1.6vw,17px);margin-top:18px}
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:9px;
+  padding:14px 26px;border-radius:10px;font-size:15px;font-weight:600;
+  border:1px solid transparent;cursor:pointer;transition:.3s var(--ease);white-space:nowrap;
+}
+.btn-primary{background:var(--grad);color:#fff;box-shadow:0 8px 30px rgba(0,81,217,.35)}
+.btn-primary:hover{transform:translateY(-3px);box-shadow:0 14px 40px rgba(0,81,217,.55)}
+.btn-ghost{border-color:var(--line2);color:var(--text);background:rgba(255,255,255,.03)}
+.btn-ghost:hover{border-color:var(--cyan);color:var(--cyan);transform:translateY(-3px)}
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
+.reveal.in{opacity:1;transform:none}
+
+/* ============ 导航 ============ */
+.nav{
+  position:fixed;top:0;left:0;right:0;height:var(--nav-h);z-index:1000;
+  background:rgba(8,8,14,.72);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
+  border-bottom:1px solid transparent;transition:.35s var(--ease);
+}
+.nav.scrolled{border-bottom-color:var(--line);background:rgba(8,8,14,.9)}
+.nav-inner{height:100%;display:flex;align-items:center;justify-content:space-between;gap:20px}
+.brand{display:flex;align-items:center;gap:11px;font-weight:800;font-size:20px;letter-spacing:.02em;flex-shrink:0}
+.brand-mark{
+  width:38px;height:38px;border-radius:11px;background:var(--grad);position:relative;
+  display:grid;place-items:center;box-shadow:0 0 24px rgba(0,120,255,.45);
+}
+.brand-mark::before{content:"";width:14px;height:14px;border-radius:50%;background:#fff;box-shadow:0 0 14px #fff}
+.brand-mark::after{content:"";position:absolute;width:26px;height:26px;border:2px solid rgba(255,255,255,.55);border-radius:50%}
+.brand small{display:block;font-size:9px;letter-spacing:.28em;color:var(--muted);font-weight:600;margin-top:-4px}
+.nav-links{display:flex;align-items:center;gap:2px}
+.nav-links a{
+  font-size:13.5px;color:var(--muted);padding:9px 11px;border-radius:8px;
+  transition:.25s;position:relative;white-space:nowrap;
+}
+.nav-links a:hover,.nav-links a.active{color:#fff}
+.nav-links a.active::after{
+  content:"";position:absolute;left:50%;bottom:2px;transform:translateX(-50%);
+  width:16px;height:2px;border-radius:2px;background:var(--cyan);
+}
+.nav-cta{padding:10px 18px;font-size:13px}
+.burger{display:none;width:42px;height:42px;border:1px solid var(--line);border-radius:10px;
+  background:rgba(255,255,255,.03);cursor:pointer;flex-direction:column;gap:5px;align-items:center;justify-content:center}
+.burger span{width:18px;height:2px;background:#fff;border-radius:2px;transition:.35s var(--ease)}
+.burger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.burger.open span:nth-child(2){opacity:0}
+.burger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+
+/* ============ Hero ============ */
+.hero{
+  position:relative;min-height:100svh;display:flex;align-items:center;overflow:hidden;
+  padding-top:var(--nav-h);
+  background:radial-gradient(ellipse 80% 60% at 50% -10%,#15224a 0%,#0a0a14 55%,#08080e 100%);
+}
+.beams{position:absolute;inset:0;overflow:hidden;pointer-events:none;opacity:.85}
+.beam{
+  position:absolute;top:-12%;left:50%;width:16vw;min-width:120px;height:130%;
+  transform-origin:top center;
+  background:linear-gradient(to bottom,rgba(120,170,255,.28),rgba(80,130,255,.06) 55%,transparent);
+  clip-path:polygon(48% 0,52% 0,100% 100%,0 100%);
+  filter:blur(6px);animation:sway 9s ease-in-out infinite alternate;
+}
+.b1{--x:-32%;background:linear-gradient(to bottom,rgba(0,209,255,.32),transparent 70%);animation-delay:-2s}
+.b2{--x:-12%;background:linear-gradient(to bottom,rgba(59,110,246,.4),transparent 72%);animation-delay:-5s}
+.b3{--x:14%;background:linear-gradient(to bottom,rgba(243,112,33,.26),transparent 70%);animation-delay:-1s}
+.b4{--x:34%;background:linear-gradient(to bottom,rgba(120,90,255,.3),transparent 72%);animation-delay:-7s}
+@keyframes sway{from{transform:translateX(var(--x)) rotate(-9deg)}to{transform:translateX(var(--x)) rotate(9deg)}}
+.hero-glow{position:absolute;left:50%;top:6%;transform:translateX(-50%);width:min(90vw,900px);height:300px;
+  background:radial-gradient(ellipse,rgba(0,120,255,.28),transparent 68%);filter:blur(20px);pointer-events:none}
+.hero-inner{position:relative;z-index:2;text-align:center;padding:60px 0 40px}
+.hero-tag{display:inline-flex;align-items:center;gap:9px;padding:8px 16px;border:1px solid var(--line2);
+  border-radius:100px;font-size:12.5px;color:var(--muted);background:rgba(255,255,255,.04);margin-bottom:28px}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--cyan);box-shadow:0 0 12px var(--cyan);animation:pulse 2s infinite}
+@keyframes pulse{50%{opacity:.35;box-shadow:0 0 4px var(--cyan)}}
+.hero h1{font-size:clamp(40px,8.4vw,86px);line-height:1.06;font-weight:900;letter-spacing:-.035em}
+.hero h1 .glow{background:linear-gradient(100deg,#fff,#8fb6ff 40%,#00d4ff 70%,#fff);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  filter:drop-shadow(0 0 28px rgba(0,170,255,.4))}
+.hero p{font-size:clamp(15px,2vw,19px);color:var(--muted);max-width:640px;margin:24px auto 34px}
+.hero-btns{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:clamp(50px,8vw,90px);
+  border-top:1px solid var(--line);padding-top:34px}
+.stat b{display:block;font-size:clamp(26px,4vw,42px);font-weight:800;background:var(--grad);
+  -webkit-background-clip:text;background-clip:text;color:transparent;line-height:1.1}
+.stat span{font-size:12.5px;color:var(--muted);letter-spacing:.05em}
+
+/* ============ 通用卡片网格 ============ */
+.grid{display:grid;gap:22px}
+.g3{grid-template-columns:repeat(3,1fr)}
+.g4{grid-template-columns:repeat(4,1fr)}
+.g2{grid-template-columns:repeat(2,1fr)}
+.card{background:linear-gradient(160deg,var(--card2),var(--card));border:1px solid var(--line);
+  border-radius:var(--r);overflow:hidden;transition:.4s var(--ease)}
+.card:hover{border-color:rgba(0,180,255,.35);transform:translateY(-6px);box-shadow:var(--shadow)}
+
+/* 产品卡 */
+.product-visual{height:210px;position:relative;display:grid;place-items:center;overflow:hidden;
+  background:radial-gradient(circle at 50% 78%,var(--gc,rgba(0,120,255,.4)),#0e0e18 62%)}
+.product-visual::after{content:"";position:absolute;inset:0;
+  background:repeating-linear-gradient(90deg,transparent,transparent 38px,rgba(255,255,255,.025) 38px,rgba(255,255,255,.025) 39px)}
+.lamp{position:relative;z-index:2;width:96px;height:96px;filter:drop-shadow(0 0 22px var(--gc,rgba(0,120,255,.5)))}
+.lamp-glow{position:absolute;bottom:-30px;width:150px;height:60px;border-radius:50%;
+  background:var(--gc,rgba(0,120,255,.5));filter:blur(28px);z-index:1}
+.prod-body{padding:22px}
+.prod-cat{font-size:11px;letter-spacing:.16em;color:var(--cyan);font-weight:700;text-transform:uppercase}
+.prod-body h3{font-size:19px;margin:8px 0 10px;font-weight:700}
+.prod-body p{font-size:13.5px;color:var(--muted);min-height:44px}
+.prod-spec{display:flex;flex-wrap:wrap;gap:7px;margin-top:16px}
+.prod-spec span{font-size:11px;color:var(--muted);border:1px solid var(--line);border-radius:6px;padding:4px 9px;background:rgba(255,255,255,.02)}
+.prod-more{display:inline-flex;align-items:center;gap:7px;margin-top:18px;font-size:13px;color:var(--cyan);font-weight:600}
+.prod-more:hover{gap:12px}
+
+/* 筛选 tabs */
+.tabs{display:flex;gap:9px;justify-content:center;flex-wrap:wrap;margin-bottom:40px}
+.tab{padding:9px 18px;border-radius:100px;border:1px solid var(--line);background:rgba(255,255,255,.03);
+  color:var(--muted);font-size:13.5px;cursor:pointer;transition:.3s}
+.tab:hover{color:#fff;border-color:var(--line2)}
+.tab.active{background:var(--grad);color:#fff;border-color:transparent;box-shadow:0 6px 22px rgba(0,81,217,.35)}
+
+/* ============ OEM ============ */
+.oem-split{display:grid;grid-template-columns:1fr 1fr;gap:clamp(36px,6vw,80px);align-items:center}
+.oem-feature{display:flex;gap:16px;padding:18px 0;border-bottom:1px solid var(--line)}
+.oem-feature:last-child{border-bottom:none}
+.ficon{flex-shrink:0;width:46px;height:46px;border-radius:12px;background:rgba(0,120,255,.12);
+  border:1px solid rgba(0,150,255,.25);display:grid;place-items:center;color:var(--cyan);font-size:20px}
+.oem-feature h4{font-size:16px;margin-bottom:4px}
+.oem-feature p{font-size:13.5px;color:var(--muted)}
+.oem-visual{border:1px solid var(--line);border-radius:20px;background:linear-gradient(160deg,#101a30,#0c0c16);
+  padding:clamp(24px,4vw,42px);position:relative;overflow:hidden}
+.oem-visual::before{content:"";position:absolute;width:260px;height:260px;right:-90px;top:-90px;
+  background:radial-gradient(circle,rgba(0,180,255,.25),transparent 70%);filter:blur(10px)}
+.flow{position:relative;display:flex;flex-direction:column;gap:14px;z-index:1}
+.flow-item{display:flex;align-items:center;gap:16px;padding:15px 18px;border-radius:12px;
+  background:rgba(255,255,255,.04);border:1px solid var(--line)}
+.flow-num{width:34px;height:34px;border-radius:9px;background:var(--grad);display:grid;place-items:center;
+  font-weight:800;font-size:14px;flex-shrink:0}
+.flow-item b{font-size:14.5px}
+.flow-item span{font-size:12.5px;color:var(--muted);display:block}
+
+/* ============ 解决方案 ============ */
+.sol-card{position:relative;min-height:260px;padding:28px;border-radius:var(--r);overflow:hidden;
+  display:flex;flex-direction:column;justify-content:flex-end;isolation:isolate;cursor:pointer}
+.sol-card::before{content:"";position:absolute;inset:0;z-index:-2;background:var(--sc,linear-gradient(160deg,#123,#0a0a14));transition:.5s var(--ease)}
+.sol-card::after{content:"";position:absolute;inset:0;z-index:-1;
+  background:linear-gradient(to top,rgba(4,4,10,.95),rgba(4,4,10,.1) 70%)}
+.sol-card:hover::before{transform:scale(1.08)}
+.sol-pattern{position:absolute;top:20px;right:20px;width:120px;height:120px;opacity:.5;z-index:-1}
+.sol-card h3{font-size:22px;font-weight:800}
+.sol-card p{font-size:13px;color:#c3c6d8;margin-top:8px;max-height:0;opacity:0;transition:.4s var(--ease);overflow:hidden}
+.sol-card:hover p,.sol-card:focus-within p{max-height:80px;opacity:1;margin-top:10px}
+.sol-arrow{position:absolute;top:22px;left:26px;width:38px;height:38px;border-radius:50%;
+  border:1px solid rgba(255,255,255,.25);display:grid;place-items:center;transition:.3s}
+.sol-card:hover .sol-arrow{background:var(--grad);border-color:transparent}
+
+/* ============ 工厂 ============ */
+.factory{background:linear-gradient(180deg,var(--bg),var(--bg2))}
+.fact-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.fact-box{padding:30px 24px;border-radius:14px;border:1px solid var(--line);background:rgba(255,255,255,.025);text-align:center}
+.fact-box b{display:block;font-size:clamp(30px,4.5vw,44px);font-weight:800;color:#fff}
+.fact-box b i{font-style:normal;font-size:.55em;color:var(--cyan);margin-left:3px}
+.fact-box span{font-size:13px;color:var(--muted)}
+.gallery{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:150px;gap:14px;margin-top:26px}
+.gcell{border-radius:12px;overflow:hidden;position:relative;border:1px solid var(--line);
+  background:linear-gradient(145deg,#151d33,#0d0d16);display:grid;place-items:center;color:var(--muted);font-size:12px;letter-spacing:.1em}
+.gcell:nth-child(1){grid-row:span 2;background:linear-gradient(160deg,#1b2c52,#0e1424)}
+.gcell:nth-child(5){grid-column:span 2;background:linear-gradient(120deg,#2a1c30,#0e0e18)}
+.gcell .gico{opacity:.55;font-size:30px;margin-bottom:8px}
+.certs{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:34px}
+.cert{padding:10px 18px;border:1px solid var(--line);border-radius:9px;font-size:12.5px;color:var(--muted);background:rgba(255,255,255,.02)}
+
+/* ============ 案例 ============ */
+.case-card{position:relative;height:280px;border-radius:var(--r);overflow:hidden;cursor:pointer;border:1px solid var(--line)}
+.case-visual{position:absolute;inset:0;background:var(--cg);transition:.6s var(--ease)}
+.case-card:hover .case-visual{transform:scale(1.08)}
+.case-visual::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(4,4,10,.92),transparent 60%)}
+.case-beam{position:absolute;top:-20%;width:40%;height:120%;background:linear-gradient(to bottom,rgba(255,255,255,.16),transparent 70%);
+  clip-path:polygon(48% 0,52% 0,100% 100%,0 100%);filter:blur(5px)}
+.case-info{position:absolute;bottom:0;left:0;right:0;padding:24px;z-index:2}
+.case-info span{font-size:11px;letter-spacing:.14em;color:var(--cyan);font-weight:700}
+.case-info h3{font-size:20px;margin-top:6px}
+
+/* ============ 技术支持 ============ */
+.support-wrap{display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(36px,6vw,72px);align-items:start}
+.acc-item{border:1px solid var(--line);border-radius:12px;margin-bottom:12px;overflow:hidden;background:rgba(255,255,255,.02)}
+.acc-q{width:100%;text-align:left;padding:18px 20px;background:none;border:none;color:var(--text);
+  font-size:15px;font-weight:600;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:16px}
+.acc-q i{font-style:normal;color:var(--cyan);font-size:20px;transition:.35s var(--ease);flex-shrink:0}
+.acc-item.open .acc-q i{transform:rotate(45deg)}
+.acc-a{max-height:0;overflow:hidden;transition:.4s var(--ease)}
+.acc-item.open .acc-a{max-height:240px}
+.acc-a p{padding:0 20px 20px;font-size:13.5px;color:var(--muted)}
+.support-box{border:1px solid var(--line);border-radius:18px;padding:clamp(26px,4vw,38px);
+  background:linear-gradient(160deg,#111a30,#0c0c16);position:relative;overflow:hidden}
+.support-box::after{content:"";position:absolute;width:220px;height:220px;right:-70px;bottom:-90px;
+  background:radial-gradient(circle,rgba(0,180,255,.22),transparent 70%)}
+.support-box h3{font-size:22px;margin-bottom:10px}
+.support-box>p{color:var(--muted);font-size:14px;margin-bottom:24px}
+.channels{display:flex;flex-direction:column;gap:12px;position:relative;z-index:1}
+.channel{display:flex;align-items:center;gap:14px;padding:14px 16px;border-radius:12px;
+  background:rgba(255,255,255,.04);border:1px solid var(--line)}
+.channel .ci{width:40px;height:40px;border-radius:10px;background:rgba(0,150,255,.14);display:grid;place-items:center;color:var(--cyan);font-size:18px}
+.channel b{font-size:14px}
+.channel span{font-size:12px;color:var(--muted);display:block}
+
+/* ============ 关于 ============ */
+.about-top{display:grid;grid-template-columns:1fr 1fr;gap:clamp(36px,6vw,80px);align-items:center}
+.about-text p{color:var(--muted);font-size:15px;margin-bottom:16px}
+.about-text p strong{color:#fff}
+.about-highlights{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:26px}
+.hl-box{padding:18px;border:1px solid var(--line);border-radius:12px;background:rgba(255,255,255,.02)}
+.hl-box b{display:block;font-size:26px;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;font-weight:800}
+.hl-box span{font-size:12.5px;color:var(--muted)}
+.timeline{position:relative;margin-top:clamp(50px,7vw,80px);padding-left:34px}
+.timeline::before{content:"";position:absolute;left:9px;top:6px;bottom:6px;width:2px;
+  background:linear-gradient(var(--cyan),rgba(0,81,217,.15))}
+.tl-item{position:relative;padding:0 0 30px 20px}
+.tl-item:last-child{padding-bottom:0}
+.tl-item::before{content:"";position:absolute;left:-30px;top:6px;width:12px;height:12px;border-radius:50%;
+  background:var(--bg);border:3px solid var(--cyan);box-shadow:0 0 12px rgba(0,212,255,.6)}
+.tl-year{font-size:15px;font-weight:800;color:var(--cyan)}
+.tl-item p{font-size:14px;color:var(--muted);margin-top:3px}
+
+/* ============ 联系 ============ */
+.contact-wrap{display:grid;grid-template-columns:.9fr 1.1fr;gap:clamp(36px,6vw,72px)}
+.contact-info h3{font-size:24px;margin-bottom:14px}
+.contact-info>p{color:var(--muted);font-size:14px;margin-bottom:30px}
+.info-row{display:flex;gap:16px;margin-bottom:22px}
+.info-row .ii{width:44px;height:44px;border-radius:11px;background:rgba(0,150,255,.12);
+  border:1px solid rgba(0,150,255,.25);display:grid;place-items:center;color:var(--cyan);font-size:18px;flex-shrink:0}
+.info-row b{font-size:14px;display:block;margin-bottom:2px}
+.info-row span{font-size:13px;color:var(--muted)}
+.form-card{border:1px solid var(--line);border-radius:18px;padding:clamp(24px,4vw,38px);
+  background:linear-gradient(160deg,var(--card2),var(--card))}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.field{margin-bottom:16px}
+.field label{display:block;font-size:12.5px;color:var(--muted);margin-bottom:7px;font-weight:600}
+.field input,.field textarea,.field select{width:100%;padding:13px 15px;border-radius:10px;
+  border:1px solid var(--line);background:rgba(255,255,255,.03);color:var(--text);font-size:14px;outline:none;transition:.3s}
+.field input:focus,.field textarea:focus,.field select:focus{border-color:var(--blue);background:rgba(0,81,217,.07)}
+.field textarea{resize:vertical;min-height:110px}
+.field select option{background:var(--card)}
+.form-note{font-size:12px;color:var(--muted2);margin-top:6px}
+
+/* ============ 页脚 ============ */
+.footer{background:var(--bg2);border-top:1px solid var(--line);padding:64px 0 0}
+.foot-grid{display:grid;grid-template-columns:1.6fr 1fr 1fr 1.2fr;gap:40px;padding-bottom:46px}
+.foot-brand p{color:var(--muted);font-size:13.5px;margin-top:18px;max-width:280px}
+.foot-col h4{font-size:14px;margin-bottom:18px;position:relative;padding-bottom:12px}
+.foot-col h4::after{content:"";position:absolute;left:0;bottom:0;width:26px;height:2px;background:var(--cyan)}
+.foot-col a{display:block;font-size:13px;color:var(--muted);margin-bottom:11px;transition:.2s}
+.foot-col a:hover{color:var(--cyan);transform:translateX(4px)}
+.foot-bottom{border-top:1px solid var(--line);padding:22px 0;text-align:center;font-size:12.5px;color:var(--muted2)}
+
+/* 回顶 */
+.to-top{position:fixed;right:24px;bottom:24px;width:46px;height:46px;border-radius:12px;
+  background:var(--grad);color:#fff;border:none;cursor:pointer;display:grid;place-items:center;font-size:18px;
+  box-shadow:0 8px 26px rgba(0,81,217,.5);opacity:0;pointer-events:none;transition:.35s var(--ease);z-index:900}
+.to-top.show{opacity:1;pointer-events:auto}
+.to-top:hover{transform:translateY(-4px)}
+
+/* ============ 响应式 ============ */
+@media(max-width:1024px){
+  .g4{grid-template-columns:repeat(2,1fr)}
+  .gallery{grid-template-columns:repeat(2,1fr)}
+  .foot-grid{grid-template-columns:1fr 1fr;gap:32px}
+  .nav-links a{padding:8px 7px;font-size:12.5px}
+  .nav-links a:nth-child(n+7){display:none}
+}
+@media(max-width:900px){
+  .nav-links{
+    position:fixed;top:var(--nav-h);left:0;right:0;
+    background:rgba(8,8,14,.97);backdrop-filter:blur(20px);
+    flex-direction:column;align-items:stretch;gap:4px;padding:18px 20px 26px;
+    border-bottom:1px solid var(--line);
+    transform:translateY(-130%);opacity:0;pointer-events:none;transition:.4s var(--ease);
+    max-height:calc(100svh - var(--nav-h));overflow-y:auto;
+  }
+  .nav-links.open{transform:none;opacity:1;pointer-events:auto}
+  .nav-links a{font-size:15px;padding:13px 12px;border-radius:10px}
+  .nav-links a.active{background:rgba(0,120,255,.12)}
+  .nav-links a.active::after{display:none}
+  .nav-links .nav-cta{margin-top:8px;justify-content:center}
+  .nav-links a:nth-child(n+7){display:block}
+  .burger{display:flex}
+  .oem-split,.support-wrap,.about-top,.contact-wrap{grid-template-columns:1fr}
+  .g3{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:640px){
+  :root{--nav-h:64px}
+  .wrap{width:min(100% - 32px,var(--maxw))}
+  .g3,.g4,.g2,.fact-stats,.form-row{grid-template-columns:1fr}
+  .stats{grid-template-columns:repeat(2,1fr);gap:22px 12px}
+  .hero-inner{padding:40px 0 20px}
+  .hero-btns{flex-direction:column}
+  .hero-btns .btn{width:100%}
+  .gallery{grid-template-columns:repeat(2,1fr);grid-auto-rows:120px}
+  .gcell:nth-child(1){grid-row:span 2}
+  .gcell:nth-child(5){grid-column:span 2}
+  .foot-grid{grid-template-columns:1fr 1fr;gap:28px}
+  .foot-brand{grid-column:1/-1}
+  .sol-card{min-height:220px}
+  .to-top{right:16px;bottom:16px;width:42px;height:42px}
+}
+@media(max-width:380px){
+  .brand{font-size:17px}
+  .brand-mark{width:34px;height:34px}
+  .hero h1{font-size:38px}
+  .gallery{grid-auto-rows:105px}
+}
+@media(prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+  .reveal{opacity:1;transform:none}
+}
+</style>
+</head>
+<body>
+
+<!-- ===== 导航 ===== -->
+<nav class="nav" id="nav">
+  <div class="wrap nav-inner">
+    <a href="#home" class="brand">
+      <span class="brand-mark"></span>
+      <span>LUMINA<small>光域科技</small></span>
+    </a>
+    <div class="nav-links" id="navLinks">
+      <a href="#home" class="active">首页</a>
+      <a href="#products">产品</a>
+      <a href="#oem">OEM / ODM</a>
+      <a href="#solutions">应用方案</a>
+      <a href="#factory">工厂与产能</a>
+      <a href="#cases">项目案例</a>
+      <a href="#support">技术支持</a>
+      <a href="#about">关于我们</a>
+      <a href="#contact" class="btn btn-primary nav-cta">联系我们</a>
+    </div>
+    <button class="burger" id="burger" aria-label="打开菜单" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- ===== 首页 ===== -->
+<header class="hero" id="home">
+  <div class="beams">
+    <div class="beam b1"></div><div class="beam b2"></div>
+    <div class="beam b3"></div><div class="beam b4"></div>
+  </div>
+  <div class="hero-glow"></div>
+  <div class="wrap hero-inner">
+    <span class="hero-tag"><span class="dot"></span>15 年专业舞台灯光研发制造经验</span>
+    <h1>让每一束光<br><span class="glow">点燃舞台的灵魂</span></h1>
+    <p>从光束灯到智能控制系统，LUMINA 为演出、剧院、演播与商业空间提供一站式专业灯光解决方案，让创意被世界看见。</p>
+    <div class="hero-btns">
+      <a href="#products" class="btn btn-primary">探索产品系列 <span>→</span></a>
+      <a href="#cases" class="btn btn-ghost">查看项目案例</a>
+    </div>
+    <div class="stats">
+      <div class="stat"><b>15+</b><span>年制造经验</span></div>
+      <div class="stat"><b>30+</b><span>出口国家地区</span></div>
+      <div class="stat"><b>100K+</b><span>年产能台数</span></div>
+      <div class="stat"><b>500+</b><span>成功案例</span></div>
+    </div>
+  </div>
+</header>
+
+<!-- ===== 产品 ===== -->
+<section class="section" id="products">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow">Products</span>
+      <h2 class="title">专业<span class="hl">产品矩阵</span></h2>
+      <p class="desc">覆盖光束、染色、图案、激光全品类，满足从小型演出到大型场馆的多元需求。</p>
+    </div>
+    <div class="tabs reveal" data-filter="product">
+      <button class="tab active" data-val="all">全部产品</button>
+      <button class="tab" data-val="beam">光束灯</button>
+      <button class="tab" data-val="wash">染色 / 帕灯</button>
+      <button class="tab" data-val="spot">图案灯</button>
+      <button class="tab" data-val="effect">效果 / 激光</button>
+    </div>
+    <div class="grid g3" id="productGrid"></div>
+  </div>
+</section>
+
+<!-- ===== OEM / ODM ===== -->
+<section class="section" id="oem" style="background:var(--bg2)">
+  <div class="wrap oem-split">
+    <div class="reveal">
+      <span class="eyebrow">OEM / ODM</span>
+      <h2 class="title">从概念到量产<br><span class="hl">一站式定制服务</span></h2>
+      <p class="desc" style="margin-bottom:28px">依托自有工厂与研发中心，我们为全球品牌提供从外观设计、光学方案到软件控制的深度定制，助你快速打造差异化产品。</p>
+      <div class="oem-feature"><div class="ficon">◈</div><div><h4>自主研发设计</h4><p>结构、光学、电子、控制软件全栈团队，支持 ID/MD 联合开发。</p></div></div>
+      <div class="oem-feature"><div class="ficon">◇</div><div><h4>柔性化生产</h4><p>小批量打样到规模化量产无缝衔接，快速响应市场变化。</p></div></div>
+      <div class="oem-feature"><div class="ficon">◉</div><div><h4>品质与合规</h4><p>全流程质检体系，支持 CE、RoHS、FDA 等国际认证代办。</p></div></div>
+      <a href="#contact" class="btn btn-primary" style="margin-top:26px">洽谈定制合作 →</a>
+    </div>
+    <div class="oem-visual reveal">
+      <div class="flow">
+        <div class="flow-item"><span class="flow-num">01</span><div><b>需求沟通</b><span>明确功能、外观与认证要求</span></div></div>
+        <div class="flow-item"><span class="flow-num">02</span><div><b>方案设计</b><span>光学模拟与结构方案输出</span></div></div>
+        <div class="flow-item"><span class="flow-num">03</span><div><b>打样测试</b><span>原型制作与性能验证</span></div></div>
+        <div class="flow-item"><span class="flow-num">04</span><div><b>量产交付</b><span>产线排产与全球物流</span></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 应用解决方案 ===== -->
+<section class="section" id="solutions">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow">Solutions</span>
+      <h2 class="title">为每一种场景<span class="hl">量身定制</span></h2>
+      <p class="desc">不同空间，不同光语言。我们深入理解每个场景的需求，给出恰到好处的灯光答案。</p>
+    </div>
+    <div class="grid g3" id="solutionGrid"></div>
+  </div>
+</section>
+
+<!-- ===== 工厂与生产能力 ===== -->
+<section class="section factory" id="factory">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow">Factory & Capacity</span>
+      <h2 class="title">硬核实力<span class="hl">看得见</span></h2>
+      <p class="desc">12,000㎡ 现代化生产基地，自动化产线与严苛质检，让每一台灯具都经得起考验。</p>
+    </div>
+    <div class="fact-stats reveal">
+      <div class="fact-box"><b>12,000<i>㎡</i></b><span>现代化生产基地</span></div>
+      <div class="fact-box"><b>100,000<i>台</i></b><span>年产能规模</span></div>
+      <div class="fact-box"><b>50<i>+</i></b><span>研发工程师</span></div>
+    </div>
+    <div class="gallery reveal">
+      <div class="gcell"><div><div class="gico">▤</div>生产车间</div></div>
+      <div class="gcell"><div><div class="gico">◎</div>光学实验室</div></div>
+      <div class="gcell"><div><div class="gico">⌁</div>自动化产线</div></div>
+      <div class="gcell"><div><div class="gico">◇</div>老化测试</div></div>
+      <div class="gcell"><div><div class="gico">◈</div>品质检测中心</div></div>
+      <div class="gcell"><div><div class="gico">▦</div>仓储物流</div></div>
+    </div>
+    <div class="certs reveal">
+      <span class="cert">ISO 9001 质量管理体系</span>
+      <span class="cert">CE 欧盟认证</span>
+      <span class="cert">RoHS 环保认证</span>
+      <span class="cert">FDA 激光认证</span>
+      <span class="cert">BVTV 检测报告</span>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 项目案例 ===== -->
+<section class="section" id="cases">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow">Case Studies</span>
+      <h2 class="title">光的<span class="hl">高光时刻</span></h2>
+      <p class="desc">从万人演唱会到城市地标，我们的灯光方案在世界各地持续绽放。</p>
+    </div>
+    <div class="grid g3" id="caseGrid"></div>
+  </div>
+</section>
+
+<!-- ===== 技术支持 ===== -->
+<section class="section" id="support" style="background:var(--bg2)">
+  <div class="wrap support-wrap">
+    <div class="reveal">
+      <span class="eyebrow">Technical Support</span>
+      <h2 class="title">专业支持<span class="hl">全程护航</span></h2>
+      <p class="desc" style="margin-bottom:30px">常见问题快速解答，若你需要进一步协助，我们的工程师团队随时待命。</p>
+      <div id="faqList"></div>
+    </div>
+    <div class="support-box reveal">
+      <h3>需要技术支持？</h3>
+      <p>无论产品选型、方案设计还是售后维护，我们都乐意提供帮助。</p>
+      <div class="channels">
+        <div class="channel"><div class="ci">✆</div><div><b>服务热线</b><span>400-800-1688（工作日 9:00-18:00）</span></div></div>
+        <div class="channel"><div class="ci">✉</div><div><b>邮件支持</b><span>support@lumina-light.com</span></div></div>
+        <div class="channel"><div class="ci">◍</div><div><b>资料下载中心</b><span>说明书 · 固件 · 灯库文件</span></div></div>
+        <div class="channel"><div class="ci">⌂</div><div><b>远程指导</b><span>工程师在线调试与培训</span></div></div>
+      </div>
+      <a href="#contact" class="btn btn-primary" style="margin-top:26px;width:100%">提交支持请求</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 关于我们 ===== -->
+<section class="section" id="about">
+  <div class="wrap">
+    <div class="about-top">
+      <div class="about-text reveal">
+        <span class="eyebrow">About Us</span>
+        <h2 class="title">用光<span class="hl">连接</span>每一个舞台</h2>
+        <p style="margin-top:22px">LUMINA 光域科技成立于 2009 年，专注于专业舞台灯光的研发、制造与全球化服务。我们坚信，好的灯光不止于照亮，更是<span style="color:#fff">讲述故事、传递情绪的语言</span>。</p>
+        <p>多年来，我们坚持光学技术与智能控制双轮驱动，产品广泛应用于演唱会、剧院、广播电视、体育场馆及商业空间，累计服务全球 <strong>30+ 国家与地区</strong>。</p>
+        <div class="about-highlights">
+          <div class="hl-box"><b>2009</b><span>品牌创立年份</span></div>
+          <div class="hl-box"><b>30+</b><span>覆盖国家地区</span></div>
+          <div class="hl-box"><b>120+</b><span>专利技术成果</span></div>
+          <div class="hl-box"><b>99.6%</b><span>客户交付满意度</span></div>
+        </div>
+      </div>
+      <div class="oem-visual reveal">
+        <div class="flow">
+          <div class="flow-item"><span class="flow-num" style="background:var(--grad-warm)">◆</span><div><b>创新为本</b><span>持续投入光学与控制技术研发</span></div></div>
+          <div class="flow-item"><span class="flow-num" style="background:var(--grad-warm)">◆</span><div><b>品质为先</b><span>严苛标准贯穿设计到交付</span></div></div>
+          <div class="flow-item"><span class="flow-num" style="background:var(--grad-warm)">◆</span><div><b>客户为伴</b><span>与全球伙伴共创光的可能</span></div></div>
+        </div>
+      </div>
+    </div>
+    <div class="timeline reveal">
+      <div class="tl-item"><div class="tl-year">2009 · 起点</div><p>光域科技成立，推出首款专业光束灯，踏入舞台灯光领域。</p></div>
+      <div class="tl-item"><div class="tl-year">2013 · 智造</div><p>建成第一条自动化生产线，产能与品质实现跨越式提升。</p></div>
+      <div class="tl-item"><div class="tl-year">2017 · 远航</div><p>开启全球化战略，产品进入欧洲、东南亚及北美市场。</p></div>
+      <div class="tl-item"><div class="tl-year">2021 · 进化</div><p>成立智能灯光研发中心，布局 DMX 无线与 AI 灯光控制。</p></div>
+      <div class="tl-item"><div class="tl-year">2025 · 共创</div><p>全球服务网络覆盖 30+ 国家，迈向下一个十年。</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 联系我们 ===== -->
+<section class="section" id="contact" style="background:var(--bg2)">
+  <div class="wrap contact-wrap">
+    <div class="contact-info reveal">
+      <span class="eyebrow">Contact Us</span>
+      <h3>让我们聊聊你的<br>下一个灯光项目</h3>
+      <p>留下需求，我们的专业顾问会在 24 小时内与你联系。</p>
+      <div class="info-row"><div class="ii">⌖</div><div><b>总部地址</b><span>中国广东省东莞市松山湖科技产业园区</span></div></div>
+      <div class="info-row"><div class="ii">✆</div><div><b>联系电话</b><span>+86 769 8888 1688</span></div></div>
+      <div class="info-row"><div class="ii">✉</div><div><b>电子邮箱</b><span>sales@lumina-light.com</span></div></div>
+      <div class="info-row"><div class="ii">◷</div><div><b>工作时间</b><span>周一至周五 9:00 - 18:00 (GMT+8)</span></div></div>
+    </div>
+    <div class="form-card reveal">
+      <form id="contactForm" novalidate>
+        <div class="form-row">
+          <div class="field"><label>您的姓名 *</label><input name="name" placeholder="请输入姓名" required></div>
+          <div class="field"><label>公司名称</label><input name="company" placeholder="请输入公司"></div>
+        </div>
+        <div class="form-row">
+          <div class="field"><label>联系电话 *</label><input name="phone" placeholder="请输入电话" required></div>
+          <div class="field"><label>电子邮箱</label><input name="email" type="email" placeholder="name@example.com"></div>
+        </div>
+        <div class="field"><label>需求类型</label>
+          <select name="type"><option>产品咨询</option><option>OEM / ODM 定制</option><option>项目方案</option><option>技术支持</option><option>其他</option></select>
+        </div>
+        <div class="field"><label>项目需求描述</label><textarea name="msg" placeholder="请简要描述您的项目需求、场地规模、预期效果等..."></textarea></div>
+        <button type="submit" class="btn btn-primary" style="width:100%">发送需求 →</button>
+        <p class="form-note">提交即表示您同意我们依据隐私政策处理您的信息。</p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 页脚 ===== -->
+<footer class="footer">
+  <div class="wrap foot-grid">
+    <div class="foot-brand">
+      <a href="#home" class="brand"><span class="brand-mark"></span><span>LUMINA<small>光域科技</small></span></a>
+      <p>专注专业舞台灯光研发制造，让每一束光都成为舞台的主角。共创 · 共享光的无限可能。</p>
+    </div>
+    <div class="foot-col"><h4>产品中心</h4><a href="#products">光束灯</a><a href="#products">LED 帕灯</a><a href="#products">图案灯</a><a href="#products">激光灯</a></div>
+    <div class="foot-col"><h4>服务支持</h4><a href="#oem">OEM / ODM</a><a href="#solutions">应用方案</a><a href="#support">技术支持</a><a href="#support">资料下载</a></div>
+    <div class="foot-col"><h4>联系我们</h4><a href="#contact">sales@lumina-light.com</a><a href="#contact">+86 769 8888 1688</a><a href="#about">关于我们</a><a href="#cases">项目案例</a></div>
+  </div>
+  <div class="foot-bottom">© 2026 LUMINA 光域科技 版权所有 · 专业舞台灯光解决方案提供商</div>
+</footer>
+
+<button class="to-top" id="toTop" aria-label="返回顶部">↑</button>
+
+<script>
+/* ========== 数据 ========== */
+const lampSVG=(c1,c2)=>`<svg class="lamp" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+  <defs><radialGradient id="g" cx="50%" cy="42%"><stop offset="0" stop-color="#fff"/><stop offset="35%" stop-color="${c1}"/><stop offset="100%" stop-color="${c2}"/></radialGradient></defs>
+  <rect x="30" y="10" width="40" height="12" rx="4" fill="#2a2c3a"/>
+  <path d="M28 20 h44 l-4 14 H32 z" fill="#343746"/>
+  <rect x="18" y="32" width="64" height="46" rx="12" fill="#232534" stroke="#3c4054" stroke-width="2"/>
+  <circle cx="50" cy="55" r="19" fill="url(#g)"/>
+  <circle cx="50" cy="55" r="19" fill="none" stroke="#4a4e63" stroke-width="2"/>
+  <rect x="22" y="78" width="56" height="8" rx="3" fill="#2a2c3a"/>
+  <circle cx="30" cy="82" r="2" fill="#555a70"/><circle cx="70" cy="82" r="2" fill="#555a70"/>
+</svg>`;
+
+const products=[
+  {cat:'beam',catName:'光束灯',name:'BEAM 230 光束灯',desc:'230W 高亮度光束，锐利光柱与超远射程，演出首选。',spec:['230W','7R','2° 光束角'],c1:'#7cc4ff',c2:'#0051D9',gc:'rgba(0,110,255,.45)'},
+  {cat:'wash',catName:'染色 / 帕灯',name:'LED PAR 六合一帕灯',desc:'18×12W RGBWA+UV 六合一，染色均匀，色彩饱满。',spec:['18×12W','RGBWA+UV','静音'],c1:'#ff9a6b',c2:'#F37021',gc:'rgba(243,112,33,.4)'},
+  {cat:'spot',catName:'图案灯',name:'SPOT 260 图案灯',desc:'260W 图案/颜色/棱镜多效合一，成像清晰锐利。',spec:['260W','图案+棱镜','CMY'],c1:'#b29bff',c2:'#5b2fd9',gc:'rgba(110,60,230,.4)'},
+  {cat:'wash',catName:'染色 / 帕灯',name:'WASH 19 变焦洗墙灯',desc:'19×15W 大透镜变焦染色，铺光均匀，适合大面积染色。',spec:['19×15W','变焦','洗墙'],c1:'#5ff0ff',c2:'#008fb3',gc:'rgba(0,180,220,.4)'},
+  {cat:'effect',catName:'效果 / 激光',name:'全彩动画激光灯',desc:'RGB 全彩激光，内置海量动画效果，氛围营造利器。',spec:['RGB 全彩','动画','DMX512'],c1:'#ff7ce0',c2:'#c9008f',gc:'rgba(220,0,160,.4)'},
+  {cat:'effect',catName:'效果 / 激光',name:'LED 频闪观众灯',desc:'高亮频闪与观众灯二合一，节奏感强烈，点燃全场。',spec:['高亮频闪','观众灯','IP20'],c1:'#fff2a8',c2:'#e0a500',gc:'rgba(230,170,0,.38)'}
+];
+
+const solutions=[
+  {name:'演唱会 / 大型演出',desc:'多灯联动与实时控台，打造震撼视听盛宴。',bg:'linear-gradient(160deg,#0d2a5c,#0a0e1c)',ico:'♪'},
+  {name:'剧院 / 演播厅',desc:'精准控光与静音设计，还原舞台艺术细节。',bg:'linear-gradient(160deg,#3a1d4d,#100c18)',ico:'◈'},
+  {name:'婚礼 / 宴会',desc:'柔和染色与灵动光束，营造浪漫梦幻氛围。',bg:'linear-gradient(160deg,#4a2333,#160d10)',ico:'✦'},
+  {name:'夜店 / Livehouse',desc:'高频闪、激光与节奏同步，释放全场能量。',bg:'linear-gradient(160deg,#123a3e,#0a1418)',ico:'◉'},
+  {name:'体育场馆',desc:'远距离投射与高均匀度，照亮大型赛事现场。',bg:'linear-gradient(160deg,#1e2c52,#0b1020)',ico:'◎'},
+  {name:'商业空间 / 展览',desc:'智能场景控制，为空间注入品牌表现力。',bg:'linear-gradient(160deg,#3b2c14,#141008)',ico:'▦'}
+];
+
+const cases=[
+  {name:'2025 城市音乐节',type:'大型演出',bg:'linear-gradient(150deg,#0e2a5e,#120a20,#3a0f4d)'},
+  {name:'国家大剧院演出季',type:'剧院舞台',bg:'linear-gradient(150deg,#3a1830,#1a1020,#0a1a2e)'},
+  {name:'国际体育开幕盛典',type:'体育场馆',bg:'linear-gradient(150deg,#0a3a44,#0a1c2e,#1a0a30)'},
+  {name:'跨年灯光秀',type:'城市地标',bg:'linear-gradient(150deg,#4a2a08,#2a0e18,#0a1830)'},
+  {name:'明星巡回演唱会',type:'演唱会',bg:'linear-gradient(150deg,#2a0e4a,#0a1a3a,#3a0a28)'},
+  {name:'高端品牌发布会',type:'商业活动',bg:'linear-gradient(150deg,#0a2e30,#0a1420,#2a2a0e)'}
+];
+
+const faqs=[
+  {q:'如何选择适合我项目的灯具？',a:'可根据场地面积、层高、演出类型和预算综合选择。我们提供免费方案咨询，工程师会根据您的需求给出专业配置建议。'},
+  {q:'产品是否支持 DMX512 控制？',a:'全系专业灯具均支持标准 DMX512 协议，部分型号还支持 RDM、无线 DMX 及手机 App 控制，兼容主流控台。'},
+  {q:'OEM/ODM 的最小起订量是多少？',a:'视具体产品与定制深度而定，标准品贴牌 MOQ 较低，深度定制一般从 100 台起。欢迎联系我们获取详细方案。'},
+  {q:'产品质保期与售后政策如何？',a:'全线产品提供 2 年质保，核心部件享有更长保修。质保期内非人为损坏免费维修，并提供终身技术支持。'},
+  {q:'可以提供哪些认证与检测报告？',a:'可提供 CE、RoHS、FDA 及相关检测报告，也支持协助客户完成目标市场的认证申请与合规文件准备。'}
+];
+
+/* ========== 渲染 ========== */
+const productGrid=document.getElementById('productGrid');
+productGrid.innerHTML=products.map(p=>`<article class="card reveal" data-cat="${p.cat}">
+  <div class="product-visual" style="--gc:${p.gc}">${lampSVG(p.c1,p.c2)}<div class="lamp-glow"></div></div>
+  <div class="prod-body"><span class="prod-cat">${p.catName}</span><h3>${p.name}</h3><p>${p.desc}</p>
+    <div class="prod-spec">${p.spec.map(s=>`<span>${s}</span>`).join('')}</div>
+    <a href="#contact" class="prod-more">了解详情 →</a></div>
+</article>`).join('');
+
+document.getElementById('solutionGrid').innerHTML=solutions.map(s=>`<article class="sol-card reveal" style="--sc:${s.bg}" tabindex="0">
+  <div class="sol-arrow" style="font-size:18px;color:#fff">↗</div>
+  <svg class="sol-pattern" viewBox="0 0 100 100"><circle cx="50" cy="50" r="34" fill="none" stroke="rgba(255,255,255,.25)" stroke-width="1"/><circle cx="50" cy="50" r="22" fill="none" stroke="rgba(255,255,255,.18)" stroke-width="1"/></svg>
+  <h3>${s.name}</h3><p>${s.desc}</p>
+</article>`).join('');
+
+document.getElementById('caseGrid').innerHTML=cases.map(c=>`<article class="case-card reveal">
+  <div class="case-visual" style="background:${c.bg}"><div class="case-beam" style="left:20%;transform:rotate(-12deg)"></div><div class="case-beam" style="right:16%;transform:rotate(14deg)"></div></div>
+  <div class="case-info"><span>${c.type}</span><h3>${c.name}</h3></div>
+</article>`).join('');
+
+document.getElementById('faqList').innerHTML=faqs.map((f,i)=>`<div class="acc-item${i===0?' open':''}">
+  <button class="acc-q">${f.q}<i>+</i></button><div class="acc-a"><p>${f.a}</p></div></div>`).join('');
+
+/* ========== 交互 ========== */
+const burger=document.getElementById('burger'),navLinks=document.getElementById('navLinks'),nav=document.getElementById('nav'),toTop=document.getElementById('toTop');
+burger.addEventListener('click',()=>{
+  const open=navLinks.classList.toggle('open');
+  burger.classList.toggle('open',open);
+  burger.setAttribute('aria-expanded',open);
+  document.body.style.overflow=open?'hidden':'';
+});
+navLinks.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{
+  navLinks.classList.remove('open');burger.classList.remove('open');
+  burger.setAttribute('aria-expanded','false');document.body.style.overflow='';
+}));
+window.addEventListener('scroll',()=>{
+  nav.classList.toggle('scrolled',window.scrollY>20);
+  toTop.classList.toggle('show',window.scrollY>500);
+},{passive:true});
+toTop.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
+
+/* 产品筛选 */
+document.querySelectorAll('[data-filter="product"] .tab').forEach(tab=>{
+  tab.addEventListener('click',()=>{
+    document.querySelectorAll('[data-filter="product"] .tab').forEach(t=>t.classList.remove('active'));
+    tab.classList.add('active');
+    const val=tab.dataset.val;
+    productGrid.querySelectorAll('.card').forEach(card=>{
+      card.style.display=(val==='all'||card.dataset.cat===val)?'':'none';
+    });
+  });
+});
+
+/* FAQ 手风琴 */
+document.querySelectorAll('.acc-q').forEach(q=>q.addEventListener('click',()=>{
+  const item=q.parentElement,wasOpen=item.classList.contains('open');
+  document.querySelectorAll('.acc-item').forEach(i=>i.classList.remove('open'));
+  if(!wasOpen)item.classList.add('open');
+}));
+
+/* 表单 */
+document.getElementById('contactForm').addEventListener('submit',e=>{
+  e.preventDefault();
+  const name=e.target.name.value.trim(),phone=e.target.phone.value.trim();
+  if(!name||!phone){alert('请填写姓名和联系电话');return;}
+  const btn=e.target.querySelector('button[type=submit]');
+  btn.textContent='✓ 已提交，我们会尽快联系您';
+  btn.style.background='linear-gradient(120deg,#00a86b,#00d4a0)';
+  e.target.reset();
+});
+
+/* 滚动高亮导航 */
+const sections=[...document.querySelectorAll('section[id],header[id]')];
+const navAnchors=[...navLinks.querySelectorAll('a[href^="#"]')];
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(en=>{
+    if(en.isIntersecting){
+      navAnchors.forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'+en.target.id));
+    }
+  });
+},{rootMargin:'-45% 0px -50% 0px'});
+sections.forEach(s=>obs.observe(s));
+
+/* 滚动淡入 */
+const revealObs=new IntersectionObserver(entries=>{
+  entries.forEach(en=>{if(en.isIntersecting){en.target.classList.add('in');revealObs.unobserve(en.target);}});
+},{threshold:.08});
+document.querySelectorAll('.reveal').forEach(el=>revealObs.observe(el));
+</script>
+</body>
+</html>
